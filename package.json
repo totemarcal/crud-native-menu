@@ -8,15 +8,27 @@
     "eject": "expo eject"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
     "expo": "^40.0.1",
+=======
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/drawer": "^5.12.5",
+    "@react-navigation/native": "^5.9.4",
+    "expo": "~40.0.0",
+>>>>>>> 81ec51f6cd7221d6f70b1b92fc141b3ac69e8d8c
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-gesture-handler": "^1.10.3",
+<<<<<<< HEAD
     "react-native-screen": "^1.0.1",
+=======
+    "react-native-reanimated": "^2.1.0",
+    "react-native-safe-area-context": "^3.2.0",
+>>>>>>> 81ec51f6cd7221d6f70b1b92fc141b3ac69e8d8c
     "react-native-screens": "^3.1.0",
     "react-native-web": "~0.13.12"
   },
