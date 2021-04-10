@@ -24,6 +24,7 @@ export default function App() {
         <Drawer.Screen options={options} name="Home" component={HomeScreen} />
         <Drawer.Screen options={options} name="Cliente" component={ListCliente} />
         <Drawer.Screen options={options} name="Funcionarios" component={ListFuncionarios} />
+        <Drawer.Screen options={options} name="Produto" component={ListProduto} />
       </Drawer.Navigator>
     </NavigationContainer>
     
