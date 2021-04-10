@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import ListCliente from './components/Cliente/ListCliente'
 import HomeScreen from './components/HomeScreen'
+import ListProduto from './components/Produtos/ListProduto'
 
 const options = {
     headerLeft: () => (
@@ -21,6 +22,7 @@ export default function App() {
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen options={options} name="Home" component={HomeScreen} />
         <Drawer.Screen options={options} name="Cliente" component={ListCliente} />
+        <Drawer.Screen options={options} name="Produto" component={ListProduto} />
       </Drawer.Navigator>
     </NavigationContainer>
     
