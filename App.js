@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import ListCliente from './components/Cliente/ListCliente'
 import ListFuncionarios from './components/Funcionarios/ListFuncionarios'
 import HomeScreen from './components/HomeScreen'
+import ListProduto from './components/Produtos/ListProduto'
 
 const options = {
     headerLeft: () => (
