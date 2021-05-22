@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ClienteService from "../../services/ClienteService";
 
 import {
     Modal,
@@ -11,10 +12,19 @@ import {
 const DeleteCliente = (props) => {
 
     const { isOpen, closeModal, selectedCliente } = props;
+    const [errorMessage, setErrorMessage] = useState("")
 
     const deleteCliente = () => {
-      props.deleteCliente(props.selectedCliente.name);
-      props.closeModal();
+      
+      const id = props.selectedCliente.id
+      ClienteService.remove(id)
+                    .then(res => {
+                        props.deleteCliente(props.selectedCliente.name);
+                        props.closeModal();                  
+                    })
+                    .catch( err=> {
+                        setErrorMessage("Erro ao concectar com a API.")
+                    })
     }
 
     return (

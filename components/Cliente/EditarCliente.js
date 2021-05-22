@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ClienteService from "../../services/ClienteService";
 
 import {
     Modal,
@@ -18,6 +19,7 @@ const EditarCliente = (props) => {
 
     const [cliente, setCliente] = useState(initialClienteState);
     const { isOpen, closeModal } = props;
+    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
         // state value is updated by selected employee data
@@ -35,12 +37,25 @@ const EditarCliente = (props) => {
 
     const updateCliente = () => {
         // destructure state
-        props.updateCliente({
+        const id = props.selectedCliente.id
+        const data = {
             name: cliente.name,
             age: cliente.age,
             cpf: cliente.cpf
-        });
-        props.closeModal();
+        }
+        ClienteService.update(id, data)
+                      .then(res => {
+                        props.updateCliente({
+                            name: res.data.name,
+                            age: res.data.age,
+                            cpf: res.data.cpf,
+                            id: res.data.id
+                        });
+                        props.closeModal();
+                      })
+                      .catch( err=> {
+                        setErrorMessage("Erro ao concectar com a API.")
+                    })
     }
 
     return (

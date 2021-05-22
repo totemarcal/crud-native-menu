@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Modal, TouchableOpacity, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import ClienteService from '../../services/ClienteService'
 
 const AddCliente = (props) => {
   const initialClienteState = {
@@ -12,15 +13,32 @@ const AddCliente = (props) => {
 
   const [cliente, setCliente] = useState(initialClienteState)
   const { isOpen, closeModal } = props
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleChange = (value, name) => {
     setCliente( {...cliente, [name]: value})
   }
 
   const addCliente = async () => {
-    props.addCliente(cliente) 
-    props.closeModal();
+    const data = {
+      name: cliente.name,
+      age: cliente.age,
+      cpf: cliente.cpf
+    }
 
+    ClienteService.create(data)
+                  .then( res => {
+                    props.addCliente({
+                      name: res.data.name,
+                      age: res.data.age,
+                      cpf: res.data.cpf,
+                      id: res.data.id
+                    }) 
+                    props.closeModal();
+                  })
+                  .catch( err=> {
+                    setErrorMessage("Erro ao concectar com a API.")
+                })
   }
 
   return(

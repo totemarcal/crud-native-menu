@@ -1,9 +1,10 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import AddCliente from './AddCliente'
 import DeleteCliente from './DeleteCliente'
 import EditarCliente from './EditarCliente'
+import ClienteService from "../../services/ClienteService";
 
 function ListCliente({}) {
 
@@ -12,7 +13,23 @@ function ListCliente({}) {
   const [isEditarClienteModalOpen, setIsEditarClienteModalOpen] = useState(false)
   const [clientes, setClientes] = useState([])
   const [selectedCliente, setSelectedCliente] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const getData = () => {
+    setErrorMessage("")
+    ClienteService.getAll()
+                  .then(res => {
+                    setClientes(res.data)
+                  })
+                  .catch(err => {
+                    setErrorMessage("Erro ao concectar com a API.")
+                  })
+  }
 
   const toggleAddCliente = () => {
     setIsAddClienteModalOpen(!isAddClienteModalOpen)
@@ -20,17 +37,15 @@ function ListCliente({}) {
 
   const addCliente = (data) => {
     setClientes([data, ...clientes])
-    //AssyncStorage.setItem ...
   }
 
   const updateCliente = (data) => {
     console.log(data)
-    setClientes(clientes.map(cli => cli.name == data.name ? data : cli) )
+    setClientes(clientes.map(cli => cli.id == data.id ? data : cli) )
   }
 
   const deleteCliente = name => {
     setClientes(clientes.filter(cli => cli.name !== name))
-    //AssyncStorage.removeItem ...
   }
 
   const toggleDeleteClienteModal = () => {
@@ -80,7 +95,9 @@ function ListCliente({}) {
 
               </View>
             )}        
-
+          {
+            errorMessage !== "" ? <Text style={styles.name}>{errorMessage}</Text> : null
+          }
           {isAddClienteModalOpen ? <AddCliente 
             isOpen={isAddClienteModalOpen}
             closeModal={toggleAddCliente}
