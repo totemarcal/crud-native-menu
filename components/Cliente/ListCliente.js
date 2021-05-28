@@ -1,10 +1,12 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import AddCliente from './AddCliente'
 import DeleteCliente from './DeleteCliente'
 import EditarCliente from './EditarCliente'
 import ClienteService from "../../services/ClienteService";
+import { ClienteContext } from "../ClienteContext";
+
 
 function ListCliente({}) {
 
@@ -12,8 +14,10 @@ function ListCliente({}) {
   const [isDeleteClienteModalOpen, setIsDeleteClienteModalOpen] = useState(false)
   const [isEditarClienteModalOpen, setIsEditarClienteModalOpen] = useState(false)
   const [clientes, setClientes] = useState([])
-  const [selectedCliente, setSelectedCliente] = useState(false)
+  //const [selectedCliente, setSelectedCliente] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+  const [cliente, setCliente] = useContext(ClienteContext);
+
 
 
   useEffect(() => {
@@ -39,10 +43,14 @@ function ListCliente({}) {
     setClientes([data, ...clientes])
   }
 
-  const updateCliente = (data) => {
+  /*const updateCliente = (data) => {
     console.log(data)
     setClientes(clientes.map(cli => cli.id == data.id ? data : cli) )
-  }
+  }*/
+
+  useEffect(()=> {
+    setClientes(clientes.map(cli => cli.id == cliente.id ? cliente : cli) )
+  }, [cliente])
 
   const deleteCliente = name => {
     setClientes(clientes.filter(cli => cli.name !== name))
@@ -77,7 +85,7 @@ function ListCliente({}) {
                   <TouchableOpacity
                     onPress={() => {
                       toggleEditarClienteModal();
-                      setSelectedCliente(data)
+                      setCliente(data)
                     }}
                     style={{ ...styles.button, marginVertical: 0 }}>
                     <Text style={styles.buttonText}>Editar</Text>
@@ -86,7 +94,7 @@ function ListCliente({}) {
                   <TouchableOpacity
                     onPress={() => {
                       toggleDeleteClienteModal();
-                      setSelectedCliente(data)
+                      setCliente(data)
                     }}
                     style={{ ...styles.button, marginVertical: 0, marginLeft: 10, backgroundColor: "tomato" }}>
                     <Text style={styles.buttonText}>Delete</Text>
@@ -107,14 +115,11 @@ function ListCliente({}) {
           {isEditarClienteModalOpen ? <EditarCliente
             isOpen={isEditarClienteModalOpen}
             closeModal={toggleEditarClienteModal}
-            selectedCliente={selectedCliente}
-            updateCliente={updateCliente}
           /> : null}
 
           {isDeleteClienteModalOpen ? <DeleteCliente
             isOpen={isDeleteClienteModalOpen}
             closeModal={toggleDeleteClienteModal}
-            selectedCliente={selectedCliente}
             deleteCliente={deleteCliente}
           /> : null}
 

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ClienteService from "../../services/ClienteService";
+import { ClienteContext } from "../ClienteContext";
 
 import {
     Modal,
@@ -10,16 +11,18 @@ import {
 } from 'react-native';
 
 const DeleteCliente = (props) => {
-
-    const { isOpen, closeModal, selectedCliente } = props;
+    const [cliente, setCliente] = useContext(ClienteContext);
+    const { isOpen, closeModal } = props;
     const [errorMessage, setErrorMessage] = useState("")
 
     const deleteCliente = () => {
       
-      const id = props.selectedCliente.id
+      //const id = props.selectedCliente.id
+      const id = cliente.id
       ClienteService.remove(id)
                     .then(res => {
-                        props.deleteCliente(props.selectedCliente.name);
+                        //props.deleteCliente(props.selectedCliente.name);
+                        props.deleteCliente(cliente.name);
                         props.closeModal();                  
                     })
                     .catch( err=> {
@@ -36,7 +39,7 @@ const DeleteCliente = (props) => {
         >
             <View style={styles.BackgroundContainer}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Deseja excluir esse cliente? ({selectedCliente.name})?</Text>
+                    <Text style={styles.title}>Deseja excluir esse cliente? ({cliente.name})?</Text>
                     <Text style={styles.subTitle}>Se deseja excluir o cliente aperte o botão OK.</Text>
 
                     <View style={styles.buttonContainer}>

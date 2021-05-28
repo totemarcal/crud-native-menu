@@ -6,6 +6,7 @@ import ListCliente from './components/Cliente/ListCliente'
 import ListFuncionarios from './components/Funcionarios/ListFuncionarios'
 import HomeScreen from './components/HomeScreen'
 import ListProduto from './components/Produtos/ListProduto'
+import {ClienteProvider} from './components/ClienteContext'
 
 
 const options = {
@@ -20,6 +21,7 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (  
+    <ClienteProvider>
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen options={options} name="Home" component={HomeScreen} />
@@ -28,6 +30,7 @@ export default function App() {
         <Drawer.Screen options={options} name="Produto" component={ListProduto} />
       </Drawer.Navigator>
     </NavigationContainer>
+    </ClienteProvider>
     
   );
 }

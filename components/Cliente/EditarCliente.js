@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import ClienteService from "../../services/ClienteService";
+import { ClienteContext } from "../ClienteContext";
 
 import {
     Modal,
@@ -10,6 +11,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+
 const EditarCliente = (props) => {
     const initialClienteState = {
         name: "",
@@ -17,11 +19,13 @@ const EditarCliente = (props) => {
         salary: ""
       };
 
-    const [cliente, setCliente] = useState(initialClienteState);
+    //const [cliente, setCliente] = useState(initialClienteState);
+    const [cliente, setCliente] = useContext(ClienteContext);
+
     const { isOpen, closeModal } = props;
     const [errorMessage, setErrorMessage] = useState("")
 
-    useEffect(() => {
+    /*useEffect(() => {
         // state value is updated by selected employee data
         const data = {
             name: props.selectedCliente.name,
@@ -29,7 +33,7 @@ const EditarCliente = (props) => {
             cpf: props.selectedCliente.cpf
           };
         setCliente(data)
-    }, [])
+    }, [])*/
 
     const handleChange = (value, name) => {
         setCliente({ ...cliente, [name]: value });
@@ -37,7 +41,8 @@ const EditarCliente = (props) => {
 
     const updateCliente = () => {
         // destructure state
-        const id = props.selectedCliente.id
+        //const id = props.selectedCliente.id
+        const id = cliente.id
         const data = {
             name: cliente.name,
             age: cliente.age,
@@ -45,12 +50,18 @@ const EditarCliente = (props) => {
         }
         ClienteService.update(id, data)
                       .then(res => {
-                        props.updateCliente({
+                        /*props.updateCliente({
                             name: res.data.name,
                             age: res.data.age,
                             cpf: res.data.cpf,
                             id: res.data.id
-                        });
+                        });*/
+                        setCliente({
+                            name: res.data.name,
+                            age: res.data.age,
+                            cpf: res.data.cpf,
+                            id: res.data.id
+                        })
                         props.closeModal();
                       })
                       .catch( err=> {
